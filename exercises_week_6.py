@@ -245,3 +245,76 @@ for poem in highlighted_poems_details:
 
 for poem in highlighted_poems_details:
     print("The poem {title} was published by {poet} in {date}.".format(title=poem[0], poet=poem[1], date=poem[2]))
+
+# --------------------- Project: Thread Shed --------------------- #
+
+daily_sales_replaced = daily_sales.replace(';,;', '|')
+
+daily_transactions = daily_sales_replaced.split(",")
+# print(daily_transactions)
+
+daily_transactions_split = []
+for transaction in daily_transactions:
+    daily_transactions_split.append(transaction.split("|"))
+
+# print(daily_transactions_split)
+
+transactions_clean = []
+for transaction in daily_transactions_split:
+    transaction_stripped = []
+    for item in transaction:
+        transaction_stripped.append(item.strip())
+    transactions_clean.append(transaction_stripped)
+
+print(transactions_clean)
+
+customers = []
+sales = []
+thread_sold = []
+
+for transaction in transactions_clean:
+    customers.append(transaction[0])
+    sales.append(transaction[1])
+    thread_sold.append(transaction[2])
+
+print(customers)
+print(sales)
+print(thread_sold)
+
+total_sales = 0
+
+for sale in sales:
+    sale = float(sale.strip("$"))
+    total_sales += sale
+
+print(total_sales)
+
+print(thread_sold)
+
+thread_sold_split = []
+
+for thread in thread_sold:
+    if "&" not in thread:
+        thread_sold_split.append(thread)
+    else:
+        thread_colors = thread.split("&")
+        for color in thread_colors:
+            thread_sold_split.append(color)
+
+
+print(thread_sold_split)
+
+def color_count(color):
+    sum = 0
+    for thread in thread_sold_split:
+        if color == thread:
+            sum += 1
+    return sum
+
+
+print(color_count('white'))
+
+colors = ['red', 'yellow', 'green', 'white', 'black', 'blue', 'purple']
+
+for color in colors:
+    print("We sold " + str(color_count(color)) + " threads of {} today".format(color))
