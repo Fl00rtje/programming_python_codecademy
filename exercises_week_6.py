@@ -318,3 +318,136 @@ colors = ['red', 'yellow', 'green', 'white', 'black', 'blue', 'purple']
 
 for color in colors:
     print("We sold " + str(color_count(color)) + " threads of {} today".format(color))
+
+# --------------------- Lesson: Strings - Code Challenge --------------------- #
+
+# 1.Introduction
+
+# 2. Count Letters
+letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+def unique_english_letters(word):
+    sum = 0
+    for letter in letters:
+        if letter in word:
+            sum += 1
+            letters.strip(letter)
+    return sum
+
+print(unique_english_letters("mississippi"))
+# should print 4
+print(unique_english_letters("Apple"))
+# should print 4
+
+# 3. Count x
+def count_char_x(word, x):
+  number = word.count(x)
+  return number
+
+print(count_char_x("mississippi", "s"))
+# should print 4
+print(count_char_x("mississippi", "m"))
+# should print 1
+
+# 4. Count Multi X
+def count_multi_char_x(word, x):
+  number = word.count(x)
+  return number
+
+print(count_multi_char_x("mississippi", "iss"))
+# should print 2
+print(count_multi_char_x("apple", "pp"))
+# should print 1
+
+# 5. Substring between
+def substring_between_letters(word, start, end):
+  start_ind = word.find(start)
+  end_ind = word.find(end)
+  if start_ind > -1 and end_ind > -1:
+  	return(word[start_ind+1:end_ind])
+  return word
+
+print(substring_between_letters("apple", "p", "e"))
+# should print "pl"
+print(substring_between_letters("apple", "p", "c"))
+# should print "apple"
+
+# 6. X length
+def x_length_words(sentence, x):
+  sentence = sentence.split()
+  for word in sentence:
+    if len(word) >= x:
+      return True
+    else:
+      return False
+
+print(x_length_words("i like apples", 2))
+# should print False
+print(x_length_words("he likes apples", 2))
+# should print True
+
+# 7. Check Name
+def check_for_name(sentence, name):
+  return name.lower() in sentence.lower()
+
+print(check_for_name("My name is Jamie", "Jamie"))
+# should print True
+print(check_for_name("My name is jamie", "Jamie"))
+# should print True
+print(check_for_name("My name is Samantha", "Jamie"))
+# should print False
+
+# 8. Every Other Letter
+def every_other_letter(word):
+  string = ""
+  for i in range(len(word)):
+    if i % 2 == 0:
+      string += word[i]
+  return string
+
+print(every_other_letter("Codecademy"))
+# should print Cdcdm
+print(every_other_letter("Hello world!"))
+# should print Hlowrd
+print(every_other_letter(""))
+# should print
+
+# 9. Reverse
+def reverse_string(word):
+  word = list(reversed(word))
+  reversed_word = ''.join(word)
+  return reversed_word
+
+print(reverse_string("Codecademy"))
+# should print ymedacedoC
+print(reverse_string("Hello world!"))
+# should print !dlrow olleH
+print(reverse_string(""))
+# should print
+
+# 10. Make Spoonerism
+def make_spoonerism(word1, word2):
+    letter1 = word1[0]
+    word1 = word2[0] + word1[1:]
+    word2 = letter1 + word2[1:]
+    return (word1 + " " + word2)
+
+print(make_spoonerism("Codecademy", "Learn"))
+# should print Lodecademy Cearn
+print(make_spoonerism("Hello", "world!"))
+# should print wello Horld!
+print(make_spoonerism("a", "b"))
+# should print b a
+
+# 11. Add exclamation
+def add_exclamation(word):
+  if len(word) >= 20:
+    return word
+  else:
+    number = 20 - len(word)
+    return word + number * "!"
+
+print(add_exclamation("Codecademy"))
+# should print Codecademy!!!!!!!!!!
+print(add_exclamation("Codecademy is the best place to learn"))
+# should print Codecademy is the best place to learn
