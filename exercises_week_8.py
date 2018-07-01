@@ -164,3 +164,136 @@ roger = Student("Roger van der Weyden", 10)
 sandro = Student("Sandro Botticelli", 12)
 pieter = Student("Pieter Bruegel the Elder", 8)
 pieter.add_grade(Grade(100))
+
+# --------------------- Lesson: Inheritance and Polymorphism --------------------- #
+
+# 1. Inheritance
+class Bin:
+  pass
+
+class RecyclingBin(Bin):
+  pass
+
+# 2. Exceptions
+class OutOfStock(Exception):
+    pass
+
+
+# Update the class below to raise OutOfStock
+class CandleShop:
+    name = "Here's a Hot Tip: Buy Drip Candles"
+
+    def __init__(self, stock):
+        self.stock = stock
+
+    def buy(self, color):
+        if self.stock[color] < 1:
+            raise OutOfStock
+        self.stock[color] = self.stock[color] - 1
+
+
+candle_shop = CandleShop({'blue': 6, 'red': 2, 'green': 0})
+candle_shop.buy('blue')
+
+# This should raise OutOfStock:
+candle_shop.buy('green')
+
+# 3. Overriding Methods
+class Message:
+    def __init__(self, sender, recipient, text):
+        self.sender = sender
+        self.recipient = recipient
+        self.text = text
+
+
+class User:
+    def __init__(self, username):
+        self.username = username
+
+    def edit_message(self, message, new_text):
+        if message.sender == self.username:
+            message.text = new_text
+
+
+class Admin(User):
+    def edit_message(self, message, new_text):
+        message.sender == True
+        message.text = new_text
+
+# 4. Super()
+class PotatoSalad:
+    def __init__(self, potatoes, celery, onions):
+        self.potatoes = potatoes
+        self.celery = celery
+        self.onions = onions
+
+
+class SpecialPotatoSalad(PotatoSalad):
+    def __init__(self, potatoes, celery, onions):
+        super().__init__(potatoes, celery, onions)
+        self.raisins = 40
+
+# 5. Interfaces
+class InsurancePolicy:
+    def __init__(self, price_of_item):
+        self.price_of_insured_item = price_of_item
+
+
+class VehicleInsurance(InsurancePolicy):
+    def get_rate(self):
+        return self.price_of_insured_item * .001
+
+
+class HomeInsurance(InsurancePolicy):
+    def get_rate(self):
+        return self.price_of_insured_item * .00005
+
+# 6. Polymorphism
+a_list = [1, 18, 32, 12]
+a_dict = {'value': True}
+a_string = "Polymorphism is cool!"
+
+print(len(a_list))
+print(len(a_dict))
+print(len(a_string))
+
+# 7. Dunder methods I
+class Atom:
+    def __init__(self, label):
+        self.label = label
+
+    def __add__(self, other):
+        return Molecule([self, other])
+
+
+class Molecule:
+    def __init__(self, atoms):
+        if type(atoms) is list:
+            self.atoms = atoms
+
+
+sodium = Atom("Na")
+chlorine = Atom("Cl")
+salt = Molecule([sodium, chlorine])
+# salt = sodium + chlorine
+
+# 8. Dunder Methods II
+class LawFirm:
+    def __init__(self, practice, lawyers):
+        self.practice = practice
+        self.lawyers = lawyers
+
+    def __len__(self):
+        return len(self.lawyers)
+
+    def __contains__(self, lawyer):
+        return lawyer in self.lawyers
+
+
+d_and_p = LawFirm("Injury", ["Donelli", "Paderewski"])
+
+# 9. Review
+class SortedList(list):
+  def append(self, value):
+    super().append(value)
+    self.sort()
