@@ -9,8 +9,10 @@ class User(object):
             (name=self.name, email=self.email, books=len(self.books))
 
     def __eq__(self, other_user):
-        pass
-        # Still have to code this one.
+        if self.name == other_user.name and self.email == other_user.email:
+            return True
+        else:
+            return False
 
     def get_email(self):
         return self.email
@@ -32,6 +34,9 @@ class User(object):
             average = sum / number_values
         return average
 
+    def __hash__(self):
+        return hash((self.name, self.email))
+
     #def get_books(self):
     #    for key, value in self.books.items():
     #        print key
@@ -44,12 +49,14 @@ class Book(object):
         self.ratings = []
 
     def __repr__(self):
-        return "Title: {title}, ISBN: {isbn}".format\
+        return "Title: '{title}', ISBN: {isbn}".format\
             (title=self.title, isbn=self.isbn)
 
     def __eq__(self, other_user):
-        pass
-        #Still have to code this one.
+        if self.title == other_user.title and self.isbn == other_user.isbn:
+            return True
+        else:
+            return False
 
     def get_title(self):
         return self.title
@@ -105,7 +112,7 @@ class Non_Fiction(Book):
 
 class TomeRater(object):
     def __init__(self):
-        self.users = {}
+        self.users = {"harmsen@gmail.com": floor}
         self.books = {}
 
     def create_book(self, title, isbn):
@@ -116,6 +123,48 @@ class TomeRater(object):
 
     def create_non_fiction(self, title, subject, level, isbn):
         return Non_Fiction(title, subject, level, isbn)
+
+    def add_book_to_user(self, book, email, rating=None):
+        if email in self.users.keys():
+            self.users[email].read_book(book, rating)
+            book.add_rating(rating)
+            if book in self.books.keys():
+                self.books[book] += 1
+            else:
+                self.books[book] = 1
+        else:
+            print("No user with email {}".format(email))
+
+    def add_user(self, name, email, books=None):
+        self.users[email] = User(name, email)
+        if books is not None:
+            for book, rating in books.items():
+                self.add_book_to_user(book, email, rating)
+
+
+    def print_catalog(self):
+        for key in self.books.keys():
+            print(key)
+
+    def print_users(self):
+        for value in self.users.values():
+            print(value)
+
+    def most_read_book(self):
+        return(max(self.books, key=self.books.get))
+
+    def highest_rated_book(self):
+        average_ratings_books = {}
+        for book in self.books:
+            average_ratings_books[book] = book.get_average_rating()
+        print(max(average_ratings_books, key=average_ratings_books.get))
+
+    def most_positive_user(self):
+        pass
+        average_ratings_user = {}
+        for user in self.users.values():
+            average_ratings_user[user] = user.get_average_rating()
+        print(max(average_ratings_user, key=average_ratings_user.get))
 
 print("=====ADD USERS=====")
 floor = User("Floor Harmsen", "floor.harmsen@gmail.com")
@@ -157,6 +206,34 @@ print("=====BOOK METHODS=====")
 print(otje.get_average_rating())
 
 print("=====TOMERATOR=====")
-book1 = TomeRater()
-book1.create_book("Just another book", 12345678)
-print(book1)
+tome_rater_1 = TomeRater()
+tome_rater_1.create_book("Just another book", 12345678)
+#print(tome_rater_1)
+tome_rater_1.add_book_to_user(otje, "harmsen1@gmail.com", 3)
+tome_rater_1.add_book_to_user(otje, "harmsen@gmail.com", 3)
+tome_rater_1.add_book_to_user(marching_powder, "harmsen@gmail.com", 4)
+print(tome_rater_1.books)
+tome_rater_1.add_user("Tom", "tom@gmail.com", {google: 3, marching_powder: 4})
+tome_rater_1.add_user("Tom", "tom@gmail.com")
+tome_rater_1.add_book_to_user(otje, "tom@gmail.com", 4)
+print(tome_rater_1.users)
+
+print("=====ANALYSIS METHODS=====")
+print(tome_rater_1.print_catalog())
+print(tome_rater_1.print_users())
+print(tome_rater_1.most_read_book())
+print(tome_rater_1.highest_rated_book())
+print(tome_rater_1.most_positive_user())
+
+
+print("=====TESTING=====")
+D = {1:'a', 5:'b', 2:'a', 7:'a'}
+for key in D.keys():
+    print(key)
+
+mydict = {'A':4,'B':10,'C':0,'D':87}
+maximum = max(mydict, key=mydict.get)
+print(maximum, mydict[maximum])
+
+d= {'a':2,'b':5,'c':3}
+print(max(d, key=d.get))
